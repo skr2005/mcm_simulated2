@@ -22,4 +22,4 @@ def calc_all_5_parameters(
 
     melDER = spd_to_aopicDER(stacked)[:, -1]
 
-    return CCT[0][0], Duv[0][0], Rg[0][0], Rf[0][0], melDER[0][0]
+    return CCT[0][0], Duv[0][0], Rg[0][0], Rf[0][0], melDER[0]
