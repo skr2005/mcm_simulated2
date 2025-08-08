@@ -1,0 +1,1 @@
+from .data.problem1 import SpectrumProblem1
