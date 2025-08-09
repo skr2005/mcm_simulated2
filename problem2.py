@@ -51,7 +51,6 @@ def scenario_1(problem2_data: Problem2Data) -> OptimizeResult:
     return differential_evolution(
         to_minimize,
         [(0, 1)] * 5,
-        workers=-1,
         constraints=NonlinearConstraint(
             constraints_fn, np.array([1, 5500, 95]), np.array([1, 6500, 105])
         ),
