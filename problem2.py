@@ -55,3 +55,10 @@ def scenario_1(problem2_data: Problem2Data) -> OptimizeResult:
             constraints_fn, np.array([1, 5500, 95]), np.array([1, 6500, 105])
         ),
     )
+
+"""
+scenario_1(Problem2Data())
+
+res.x = array([1.5052e-01, 1.7068e-01, 2.4089e-01, 9.6369e-03, 4.2827e-01])
+res.fun = -92.85323145954435
+"""
