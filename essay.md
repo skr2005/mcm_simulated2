@@ -158,8 +158,27 @@ $$
 
 #### 计算mel-DER：
 
-这一块有点抽象，暂时放一下。
-
+根据材料，CIE S 026/E:2018标准指出了五种谱加权函数，而mel是其中的一种，根据定义，褪黑素日照强度mel-opic为：
+$$
+E_{mel}=\int_{\lambda_1}^{\lambda_2} E_{e,\lambda}(\lambda)s_{mel}(\lambda)\ d\lambda
+$$
+在这里，$s_{mel}(\lambda)$ 为含黑视素ipRGCs的感受器的光谱加权函数，也叫作用光谱，由查表得到。而$E_{e,\lambda}(\lambda)$表示对应波长下，光源光谱照度，单位为(W·m⁻²·nm⁻¹).本题目中，由于波长按1nm划分，所以对应公式为
+$$
+E_{mel}=\sum_{i=\lambda_1}^{\lambda_2} E_{e,\lambda}(\lambda_i)s_{mel}(\lambda_i)\Delta \lambda 
+$$
+这里$E_{mel}$单位为$W·m^{-2}$
+而褪黑素日照强度比mel-DER定义为褪黑素的ELR(光视效能)除以光源D65的ELR，公式如下：
+$$
+\text{mel-DER}=\frac{K_{mel,v}}{K_{mel,v}^{D65}}
+$$
+计算mel-ELR可由下述公式得到
+$$
+E_{mel,v} = \frac{E_{mel}}{E_v}
+$$
+$$
+E_v \approx K_m \sum_{i=1}^{N} E_{e,\lambda}(\lambda_i)\,V(\lambda_i)\,\Delta\lambda
+$$
+式中，$E_v$为光源的照度，单位为lx，$V(\lambda_i)$是CIE 的光感受效率函数，可由CIE 1931查表得知。$E_{mel,v}$表示褪黑色光视效能，单位为$W·Im^{-1}$由于$K_{mel,v}^{D65}$已知，将上式代入mel-DER的公式中，我们可以计算出褪黑素的日照强度比。(关于lx转化为mW/Im的公式，在参考材料$^{[3]}$中)
 # 六、 模型的分析与检验
 
 # 七、 模型的评价，改进
