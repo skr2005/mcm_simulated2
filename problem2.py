@@ -58,14 +58,44 @@ def scenario_1(problem2_data: Problem2Data) -> OptimizeResult:
         constraints=NonlinearConstraint(
             constraints_fn, np.array([1, 5500, 95]), np.array([1, 6500, 105])
         ),
+        tol=1e-4,
     )
 
 
 """
-scenario_1(Problem2Data())
-
-res.x = array([1.5052e-01, 1.7068e-01, 2.4089e-01, 9.6369e-03, 4.2827e-01])
-res.fun = -92.85323145954435
+>>> scenario_1(Problem2Data())
+             message: Optimization terminated successfully.
+             success: True
+                 fun: -92.85323313874815
+                   x: [ 1.505e-01  1.707e-01  2.409e-01  9.636e-03
+                        4.283e-01]
+                 nit: 517
+                nfev: 1596
+          population: [[ 1.491e-01  1.701e-01 ...  7.554e-03  4.287e-01]
+                       [ 1.586e-01  1.708e-01 ...  1.441e-02  4.237e-01]
+                       ...
+                       [ 1.457e-01  1.646e-01 ...  4.404e-03  4.382e-01]
+                       [ 1.455e-01  1.640e-01 ...  5.220e-03  4.406e-01]]
+ population_energies: [-9.285e+01 -9.284e+01 ... -9.285e+01 -9.284e+01]
+              constr: [array([ 0.000e+00,  0.000e+00,  0.000e+00])]
+    constr_violation: 0.0
+               maxcv: 0.0
+                 jac: [array([[ 1.000e+00,  1.000e+00, ...,  1.000e+00,
+                               1.000e+00],
+                             [ 3.175e+03,  3.573e+03, ..., -1.293e+04,
+                               7.302e+02],
+                             [ 2.583e+01, -3.068e+01, ...,  2.121e+01,
+                              -1.517e+01]], shape=(3, 5)), array([[ 1.000e+00,  0.000e+00, ...,  0.000e+00,      
+                               0.000e+00],
+                             [ 0.000e+00,  1.000e+00, ...,  0.000e+00,
+                               0.000e+00],
+                             ...,
+                             [ 0.000e+00,  0.000e+00, ...,  1.000e+00,
+                               0.000e+00],
+                             [ 0.000e+00,  0.000e+00, ...,  0.000e+00,
+                               1.000e+00]], shape=(5, 5))]
+>>> _.x
+array([1.5052e-01, 1.7068e-01, 2.4089e-01, 9.6356e-03, 4.2827e-01])
 """
 
 
@@ -122,6 +152,32 @@ def scenario_2(problem2_data: Problem2Data) -> OptimizeResult:
         to_minimize,
         [(0, 1)] * 5,
         constraints=NonlinearConstraint(
-            constraints_fn, np.array([1, 2500, 80]), np.array([1, 3500, 100])
+            constraints_fn,
+            np.array([1, 2500, 80]),
+            np.array([1, 3500, np.inf]),
         ),
+        tol=1e-4,
     )
+
+
+"""
+>>> scenario_2(Problem2Data())
+             message: Optimization terminated successfully.
+             success: True
+                 fun: 0.36680482342085124
+                   x: [ 4.326e-06  1.131e-01  2.957e-05  8.868e-01
+                        1.401e-05]
+                 nit: 802
+                nfev: 4821
+          population: [[ 4.326e-06  1.131e-01 ...  8.868e-01  1.401e-05]
+                       [ 1.915e-04  1.131e-01 ...  8.863e-01  2.495e-05]
+                       ...
+                       [ 4.833e-05  1.132e-01 ...  8.866e-01  1.888e-05]
+                       [ 1.220e-04  1.131e-01 ...  8.867e-01  2.234e-05]]
+ population_energies: [ 3.668e-01  3.668e-01 ...  3.668e-01  3.668e-01]
+              constr: [array([ 0.000e+00,  0.000e+00,  0.000e+00])]
+    constr_violation: 0.0
+               maxcv: 0.0
+>>> _.x
+array([4.3256e-06, 1.1312e-01, 2.9568e-05, 8.8683e-01, 1.4012e-05])
+"""
