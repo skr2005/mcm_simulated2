@@ -3,7 +3,7 @@ from ..prelude import *
 
 class Spectrum(ABC):
     @abstractmethod
-    def spd(self) -> ArrayLike:
+    def spd(self) -> NDArray[np.float64]:
         """
         光强（功率分布数据），单位为W/m^2/nm
 
@@ -16,7 +16,7 @@ class Spectrum(ABC):
         """
 
     @abstractmethod
-    def wavelength(self) -> ArrayLike:
+    def wavelength(self) -> NDArray[np.float64]:
         """
         波长数据，单位为nm
 
