@@ -67,3 +67,61 @@ scenario_1(Problem2Data())
 res.x = array([1.5052e-01, 1.7068e-01, 2.4089e-01, 9.6369e-03, 4.2827e-01])
 res.fun = -92.85323145954435
 """
+
+
+def scenario_2(problem2_data: Problem2Data) -> OptimizeResult:
+    """
+    构建场景二的解
+
+    返回`OptimizeResult`
+
+    目标函数
+        min mel-DER
+    约束条件
+        2500<=CCT<=3500
+        R_f>80
+    """
+    leds = problem2_data.five_leds()
+    anyone_wavelength = leds[0].wavelength()
+
+    def combine(weights: NDArray[np.float64]) -> NDArray[np.float64]:
+        """
+        组合光谱，没变
+        """
+        result_spd = None
+        for led, weight in zip(leds, weights):
+            if result_spd is None:
+                result_spd = led.spd() * weight
+            else:
+                result_spd += led.spd() * weight
+        return cast(NDArray[np.float64], result_spd)
+
+    def to_minimize(weights: NDArray[np.float64]) -> np.float64:
+        """
+        要最小化的目标函数
+        """
+        stacked = np.vstack((anyone_wavelength, combine(weights)))
+        melDER = spd_to_aopicDER(stacked)[:, -1]
+        return melDER[0]
+
+    def constraints_fn(
+        weights: NDArray[np.float64],
+    ) -> tuple[np.float64, np.float64, np.float64]:
+        """
+        计算权值和、CCT、Rf
+        """
+        stacked = np.vstack((anyone_wavelength, combine(weights)))
+        Rf, CCT = cast(Any, spd_to_iesrf(stacked, "Rf,cct"))
+        return (
+            np.sum(weights),
+            CCT[0][0],
+            Rf[0][0],
+        )
+
+    return differential_evolution(
+        to_minimize,
+        [(0, 1)] * 5,
+        constraints=NonlinearConstraint(
+            constraints_fn, np.array([1, 2500, 80]), np.array([1, 3500, 100])
+        ),
+    )
