@@ -29,7 +29,9 @@ class Problem2Data:
         for i in range(len(data.columns) - 1):  # 不算第一列波长列，所以减一
             leds.append(
                 SpectrumProblem2(
-                    i, data.iloc[:, i + 1].to_numpy(dtype=np.float64)*1e-3, wave_length    # 转换精度
+                    i,
+                    data.iloc[:, i + 1].to_numpy(dtype=np.float64) * 1e-3,
+                    wave_length,  # 转换精度
                 )
             )  # 对应的这里的spd列要加1
         self.leds = leds
