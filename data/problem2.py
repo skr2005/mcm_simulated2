@@ -1,12 +1,9 @@
-from numpy import float64
-from mcm_simulated2.prelude import NDArray
 from ..prelude import *
 from ..data_abstract.spectrum_abstract import Spectrum
 from . import DATA_RAW_PATH
-import pandas as pd
-from pprint import pprint
 
-__all__ = ["Init_classes"]
+
+__all__ = ["Problem2Data"]
 
 class SpectrumProblem2(Spectrum):
     def __init__(self,led_num,arr1,arr2) ->None:
@@ -19,8 +16,13 @@ class SpectrumProblem2(Spectrum):
         return self.wavelength_data
 
 class Problem2Data:
-    def __init__(self) -> None: ...  # TODO
-
+    def __init__(self) -> None:
+        data = pd.read_csv(DATA_RAW_PATH / "problem2.txt",sep="\s+",header=0,encoding="utf-8")
+        wave_length = data.iloc[:,0].to_numpy(dtype=np.float64)
+        leds = []
+        for i in range(len(data.columns)-1): # 不算第一列波长列，所以减一
+            leds.append(SpectrumProblem2(i,data.iloc[:,i+1].to_numpy(dtype=np.float64),wave_length)) # 对应的这里的spd列要加1
+        self.leds = leds
     def five_leds(self) -> list[Spectrum]:
         """
         返回五种可用LED的光谱
@@ -30,16 +32,8 @@ class Problem2Data:
 
         期望时间复杂度O(1)
         """
-        ...  # TODO
+        return self.leds
 
-def Init_classes():
-    print("stsagas")
-    data = pd.read_csv(DATA_RAW_PATH / "problem2.txt",sep=" ",header=0,encoding="utf-8")
-    wave_length = data.iloc[:,0]
-    five_leds = []
-    for i in range(len(data.columns)-1):
-        five_leds.append(SpectrumProblem2(i,data.iloc[:,i+1],wave_length))
-    pprint(five_leds)
 
 
 
