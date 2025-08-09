@@ -1,4 +1,4 @@
-波长(mW/m2/nm)	Blue	Green	Red	Warm White	Cold White
+波长(mW/m2/nm)	Blue	Green	Red	WarmWhite	ColdWhite
 380	0	0	0	0	0.021608529
 381	0.001834862	0	0	0	0.016859402
 382	0.005504587	0	0	0	0.011872818
