@@ -3,6 +3,19 @@ from .data.problem2 import Problem2Data
 from .data_abstract.spectrum_abstract import Spectrum
 
 
+def combine(leds: list[Spectrum], weights: NDArray[np.float64]) -> NDArray[np.float64]:
+    """
+    按照配比组合光谱
+    """
+    result_spd = None
+    for led, weight in zip(leds, weights):
+        if result_spd is None:
+            result_spd = led.spd() * weight
+        else:
+            result_spd += led.spd() * weight
+    return cast(NDArray[np.float64], result_spd)
+
+
 def scenario_1(problem2_data: Problem2Data) -> OptimizeResult:
     """
     构建场景一的解
@@ -19,23 +32,11 @@ def scenario_1(problem2_data: Problem2Data) -> OptimizeResult:
     leds = problem2_data.five_leds()
     anyone_wavelength = leds[0].wavelength()
 
-    def combine(weights: NDArray[np.float64]) -> NDArray[np.float64]:
-        """
-        组合光谱
-        """
-        result_spd = None
-        for led, weight in zip(leds, weights):
-            if result_spd is None:
-                result_spd = led.spd() * weight
-            else:
-                result_spd += led.spd() * weight
-        return cast(NDArray[np.float64], result_spd)
-
     def to_minimize(weights: NDArray[np.float64]) -> np.float64:
         """
         要最小化的目标函数
         """
-        stacked = np.vstack((anyone_wavelength, combine(weights)))
+        stacked = np.vstack((anyone_wavelength, combine(leds, weights)))
         return -cast(Any, spd_to_iesrf(stacked, "Rf"))[0][0]
 
     def constraints_fn(
@@ -44,7 +45,7 @@ def scenario_1(problem2_data: Problem2Data) -> OptimizeResult:
         """
         计算权值和、CCT、Rg
         """
-        stacked = np.vstack((anyone_wavelength, combine(weights)))
+        stacked = np.vstack((anyone_wavelength, combine(leds, weights)))
         CCT, Rg = cast(Any, spd_to_iesrf(stacked, "cct,Rg"))
         return (
             np.sum(weights),
@@ -114,23 +115,11 @@ def scenario_2(problem2_data: Problem2Data) -> OptimizeResult:
     leds = problem2_data.five_leds()
     anyone_wavelength = leds[0].wavelength()
 
-    def combine(weights: NDArray[np.float64]) -> NDArray[np.float64]:
-        """
-        组合光谱，没变
-        """
-        result_spd = None
-        for led, weight in zip(leds, weights):
-            if result_spd is None:
-                result_spd = led.spd() * weight
-            else:
-                result_spd += led.spd() * weight
-        return cast(NDArray[np.float64], result_spd)
-
     def to_minimize(weights: NDArray[np.float64]) -> np.float64:
         """
         要最小化的目标函数
         """
-        stacked = np.vstack((anyone_wavelength, combine(weights)))
+        stacked = np.vstack((anyone_wavelength, combine(leds, weights)))
         melDER = spd_to_aopicDER(stacked)[:, -1]
         return melDER[0]
 
@@ -140,7 +129,7 @@ def scenario_2(problem2_data: Problem2Data) -> OptimizeResult:
         """
         计算权值和、CCT、Rf
         """
-        stacked = np.vstack((anyone_wavelength, combine(weights)))
+        stacked = np.vstack((anyone_wavelength, combine(leds, weights)))
         Rf, CCT = cast(Any, spd_to_iesrf(stacked, "Rf,cct"))
         return (
             np.sum(weights),
