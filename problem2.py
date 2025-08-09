@@ -68,6 +68,7 @@ res.x = array([1.5052e-01, 1.7068e-01, 2.4089e-01, 9.6369e-03, 4.2827e-01])
 res.fun = -92.85323145954435
 """
 
+
 def scenario_2(problem2_data: Problem2Data) -> OptimizeResult:
     """
     构建场景二的解
@@ -105,21 +106,22 @@ def scenario_2(problem2_data: Problem2Data) -> OptimizeResult:
 
     def constraints_fn(
         weights: NDArray[np.float64],
-    ) -> tuple[np.float64, np.float64]:
+    ) -> tuple[np.float64, np.float64, np.float64]:
         """
-        计算权值和、Rf
+        计算权值和、CCT、Rf
         """
         stacked = np.vstack((anyone_wavelength, combine(weights)))
-        Rf = cast(Any, spd_to_iesrf(stacked, "Rf"))
+        Rf, CCT = cast(Any, spd_to_iesrf(stacked, "Rf,cct"))
         return (
             np.sum(weights),
-            Rf[0][0]
+            CCT[0][0],
+            Rf[0][0],
         )
 
     return differential_evolution(
         to_minimize,
         [(0, 1)] * 5,
         constraints=NonlinearConstraint(
-            constraints_fn, np.array([1, 80]), np.array([1, 100])
+            constraints_fn, np.array([1, 2500, 80]), np.array([1, 3500, 100])
         ),
     )
