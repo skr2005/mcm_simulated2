@@ -42,17 +42,17 @@ def scenario_1(problem2_data: Problem2Data) -> OptimizeResult:
         weights: NDArray[np.float64],
     ) -> tuple[np.float64, np.float64, np.float64]:
         """
-        计算CCT、Rg、权值和
+        计算权值和、CCT、Rg
         """
         stacked = np.vstack((anyone_wavelength, combine(weights)))
-        CCT, Rg = cast(Any, spd_to_iesrf(stacked, "CCT,Rg"))
-        return CCT[0][0], Rg[0][0], np.sum(weights)
+        CCT, Rg = cast(Any, spd_to_iesrf(stacked, "cct,Rg"))
+        return np.sum(weights), CCT[0][0], Rg[0][0], 
 
     return differential_evolution(
         to_minimize,
         [(0, 1)] * 5,
         workers=-1,
         constraints=NonlinearConstraint(
-            constraints_fn, np.array([5500, 95, 1]), np.array([6500, 105, 1])
+            constraints_fn, np.array([1, 5500, 95]), np.array([1, 6500, 105])
         ),
     )
