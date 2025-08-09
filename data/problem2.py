@@ -17,7 +17,7 @@ class SpectrumProblem2(Spectrum):
 
 class Problem2Data:
     def __init__(self) -> None:
-        data = pd.read_csv(DATA_RAW_PATH / "problem2.txt",sep="\s+",header=0,encoding="utf-8")
+        data = pd.read_csv(DATA_RAW_PATH / "problem2.txt",sep="\\s+",header=0,encoding="utf-8")
         wave_length = data.iloc[:,0].to_numpy(dtype=np.float64)
         leds = []
         for i in range(len(data.columns)-1): # 不算第一列波长列，所以减一
