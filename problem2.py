@@ -46,7 +46,11 @@ def scenario_1(problem2_data: Problem2Data) -> OptimizeResult:
         """
         stacked = np.vstack((anyone_wavelength, combine(weights)))
         CCT, Rg = cast(Any, spd_to_iesrf(stacked, "cct,Rg"))
-        return np.sum(weights), CCT[0][0], Rg[0][0], 
+        return (
+            np.sum(weights),
+            CCT[0][0],
+            Rg[0][0],
+        )
 
     return differential_evolution(
         to_minimize,
@@ -55,6 +59,7 @@ def scenario_1(problem2_data: Problem2Data) -> OptimizeResult:
             constraints_fn, np.array([1, 5500, 95]), np.array([1, 6500, 105])
         ),
     )
+
 
 """
 scenario_1(Problem2Data())
