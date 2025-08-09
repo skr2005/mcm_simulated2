@@ -2,7 +2,9 @@ from .prelude import *
 from .parameters import calc_all_5_parameters
 from .data.problem1 import SpectrumProblem1
 from .data.problem2 import Problem2Data
+from .data.problem3 import Problem3Data
 from .problem2 import p2s1_solution, p2s2_solution
+
 
 
 def p1():
@@ -28,7 +30,6 @@ def p2():
 """
 
 def main(): ...
-
 
 if __name__ == "__main__":
     main()
