@@ -181,3 +181,37 @@ def scenario_2(problem2_data: Problem2Data) -> OptimizeResult:
 >>> _.x
 array([4.3256e-06, 1.1312e-01, 2.9568e-05, 8.8683e-01, 1.4012e-05])
 """
+
+
+def q2_params_output():
+    """
+    问题二中所需的五个参数的计算和输出
+    """
+    weights1 = np.array([1.505e-01, 1.707e-01, 2.409e-01, 9.636e-03, 4.283e-01])
+    weights2 = np.array([4.326e-06, 1.131e-01, 2.957e-05, 8.868e-01, 1.401e-05])
+    problem2_data = Problem2Data()
+    leds = problem2_data.five_leds()
+    anyone_wavelength = leds[0].wavelength()
+
+    def combine(weights: NDArray[np.float64]) -> NDArray[np.float64]:
+        """
+        组合光谱
+        """
+        result_spd = None
+        for led, weight in zip(leds, weights):
+            if result_spd is None:
+                result_spd = led.spd() * weight
+            else:
+                result_spd += led.spd() * weight
+        return cast(NDArray[np.float64], result_spd)
+
+    spd1 = combine(weights1)
+    spd2 = combine(weights2)
+    stacked1 = np.vstack((anyone_wavelength, spd1))
+    stacked2 = np.vstack((anyone_wavelength, spd2))
+    Rf1, Rg1, CCT1, Duv1 = cast(Any, spd_to_iesrf(stacked1, "Rf,Rg,cct,duv"))
+    Rf2, Rg2, CCT2, Duv2 = cast(Any, spd_to_iesrf(stacked2, "Rf,Rg,cct,duv"))
+    melDER1 = spd_to_aopicDER(stacked1)[:, -1]
+    melDER2 = spd_to_aopicDER(stacked2)[:, -1]
+    print(f"场景一数据:Rf1:{Rf1},Rg1:{Rg1},CCT1{CCT1},Duv1{Duv1},mel-DER1={melDER1}")
+    print(f"场景二数据:Rf2:{Rf2},Rg1:{Rg2},CCT1{CCT2},Duv1{Duv2},mel-DER2={melDER2}")
