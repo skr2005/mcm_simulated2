@@ -42,9 +42,11 @@ Table: 表1: 符号说明
 
 利用SPD，根据其步长$\lambda$(这里为1nm)，可以转化为三刺激值X、Y、Z。三刺激值通过三刺激函数CIE 1931得出：
 $$
+\begin{aligned}
 X =\sum_{\lambda} S(\lambda)\cdot \bar{x}(\lambda)\cdot \Delta \lambda \\
 Y =\sum_{\lambda} S(\lambda)\cdot \bar{y}(\lambda)\cdot \Delta \lambda \\
 Z =\sum_{\lambda} S(\lambda)\cdot \bar{z}(\lambda)\cdot \Delta \lambda \\
+\end{aligned}
 $$
 根据刺激值XYZ，可以计算出CIE 1960坐标(u,v)：
 $$
@@ -66,9 +68,13 @@ CIECAM02 是国际照明委员会发布的色貌模型，用于模拟人眼对�
 
 根据经验公式，可以将$JMh$坐标转化为对应的$J'a'b'$坐标。
 $$
-J' = 1.7J^{0.007} \\[12px]
-a' = \frac{\ln(1+0.0228M)}{0.0228}\cos(h) \\[12px]
-b' = \frac{\ln(1+0.0228M)}{0.0228}\sin(h)  \\[12px]
+J' = 1.7J^{0.007}
+$$
+$$
+a' = \frac{\ln(1+0.0228M)}{0.0228}\cos(h)
+$$
+$$
+b' = \frac{\ln(1+0.0228M)}{0.0228}\sin(h)
 $$
 Jab坐标中，J代表明暗度，a代表红绿轴(即表示颜色偏红或是偏绿)，b代表黄蓝轴(即表示颜色偏黄或是偏蓝)
 
@@ -120,7 +126,9 @@ $$
 
 $R_f$的大致计算过程如下：首先，将SPD转化为对应的CAM02-UCS坐标，这一点可以由前述坐标转换得到。然后，计算转换后的坐标与标准色样的色差。第$i$个CES与转换后的色样的色差记为$\Delta E_{Jab,i}$，则根据参考资料，
 $$
-R_f' = 100-6.73[\frac{1}{99}\sum_{i=1}^{99}\Delta E_{Jab,i}] \\
+R_f' = 100-6.73[\frac{1}{99}\sum_{i=1}^{99}\Delta E_{Jab,i}]
+$$
+$$
 \Delta E_{Jab} = \sqrt{a}
 $$
 一般来说，$R_f$的取值在0~100，用来衡量颜色的保真程度，所以需要将结果范围限制在0~100
