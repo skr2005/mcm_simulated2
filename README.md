@@ -24,6 +24,10 @@ cd ..
 python -i -m mcm_2020b_p1
 ```
 
-## 许可证
+## 本项目版权声明与许可证
 
-本项目在 GPLv3 许可下发布。
+Copyright 2025 All contributers
+
+本项目的代码在 `MIT` 许可下发布，参见`LICENSE`文件。
+
+本项目使用了`luxpy`库。根据其使用的GPLv3许可证，`luxpy`与本项目的整体使用`GPL-3.0`授权。
