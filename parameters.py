@@ -2,6 +2,11 @@ from .prelude import *
 from .data_abstract.spectrum_abstract import Spectrum
 
 
+def calc_melDER(spectrum: Spectrum) -> np.float64:
+    stacked = np.vstack((spectrum.wavelength(), spectrum.spd()))
+    return spd_to_aopicDER(stacked)[:, -1][0]
+
+
 def calc_all_5_parameters(
     spectrum: Spectrum,
 ) -> tuple[
