@@ -21,7 +21,7 @@ pip install -r requirements.txt
 4. 运行：
 ```bash
 cd ..
-python -i -m mcm_2020b_p1
+python -i -m mcm_simulated2
 ```
 
 ## 本项目版权声明与许可证
