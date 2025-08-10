@@ -4,7 +4,7 @@ from .data.problem1 import SpectrumProblem1
 from .data.problem2 import Problem2Data
 from .data.problem3 import Problem3Data
 from .problem2 import p2s1_solution, p2s2_solution
-from .problem3 import p3_melDERs, solve_problem3_weights, p3_plot_melDER
+from .problem3 import p3_melDERs, solve_problem3_weights,draw_comparison
 
 
 def p1():
@@ -31,8 +31,9 @@ def p3():
     """
     p2_data = Problem2Data()
     p3_data = Problem3Data()
-    return solve_problem3_weights(p2_data.five_leds(), p3_melDERs(p3_data))
-
+    w_matrix,residual = solve_problem3_weights(p2_data.five_leds(), p3_melDERs(p3_data))
+    draw_comparison(w_matrix,residual,p2_data.five_leds(),p3_data,p3_melDERs(p3_data))
+    return w_matrix,residual
 
 """
 >>> p1()
@@ -42,7 +43,8 @@ def p3():
 """
 
 
-def main(): ...
+def main(): 
+    print(p3())
 
 
 if __name__ == "__main__":
