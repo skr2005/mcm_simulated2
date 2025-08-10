@@ -15,3 +15,4 @@ from luxpy.toolboxes.photbiochem import spd_to_aopicDER
 from luxpy.spectrum import spd
 from luxpy.color.cri import spd_to_iesrf
 import pandas as pd
+import matplotlib.pyplot as plt

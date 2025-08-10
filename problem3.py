@@ -9,6 +9,26 @@ def p3_melDERs(data: Problem3Data) -> NDArray[np.float64]:
     return np.array(list(map(calc_melDER, data.spectra())))
 
 
+def p3_plot_melDER(data3: Problem3Data):
+    """
+    画出目标melDER关于时间的散点图
+    """
+    y = []
+    for spectrum in data3.spectra():
+        stacked = np.vstack((spectrum.wavelength(), spectrum.spd()))
+        melDER = spd_to_aopicDER(stacked)[:, -1]
+        y.append(melDER[0])
+    x = [i + 5.5 for i in range(len(data3.time_info()))]
+    plt.scatter(x, y, s=4, color="blue")
+    print(x)
+    print(y)
+    plt.legend()
+    plt.xlabel("时间")
+    plt.ylabel("mel-DER")
+    plt.title("mel-DER随时间的变化趋势")
+    plt.show()
+
+
 def fit_melDER(
     leds: list[Spectrum],
     target_melDER: np.float64,
