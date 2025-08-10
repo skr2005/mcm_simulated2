@@ -14,7 +14,6 @@ from scipy.optimize import (
 from luxpy.toolboxes.photbiochem import spd_to_aopicDER
 from luxpy.spectrum import spd
 from luxpy.color.cri import spd_to_iesrf
-from luxpy.spectrum.SPD import SPD
 import pandas as pd
 import matplotlib.pyplot as plt
 from matplotlib.ticker import FuncFormatter
