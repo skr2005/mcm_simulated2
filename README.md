@@ -24,6 +24,8 @@ cd ..
 python -i -m mcm_2020b_p1
 ```
 
-## 许可证
+## 本项目版权声明与许可证
 
-本项目在 GPLv3 许可下发布。
+Copyright 2025 All contributers
+
+本项目在 `GPL-3.0-or-later` 许可下发布，参见`COPYING`文件。
