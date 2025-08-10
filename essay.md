@@ -213,6 +213,7 @@ $$
 
 经过上述结果，我们计算出五种参数的数值如下：
 CCT=3903.038K，Duv=-0.001016，Rg=106.079，Rf=91.790，mel-DER=0.64074。
+
 |    参数名称   |   数值                      | 单位|
 | :-----------: | :--------------------------: | :--: |
 |CCT            |3903.038|    K    |
@@ -354,18 +355,3 @@ CCT计算模型采用了Robertson2023的方法，计算精度高，适用范围�
 ## 7.3 模型的改进
 
 问题三中，可以使用机器学习等回归方法，更好地拟合对应的时间序列集。
-
-# 八、 附录
-
-|    文件夹                         |                子文件                    |           用途               |
-| :-------------------------------: | :-------------------------------------: | :--------------------------: | 
-|   .\mcm_simulated2                |         \__main__.py                    |   主程序入口                       |
-|   .\mcm_simulated2                |          README.md                      |   使用该模块的相关说明             |
-|   .\mcm_simulated2                |         requiresments.txt               |   需要导入的库                     |
-|   .\mcm_simulated2                |         prelude.py                      |   需要导入的库                    |
-|   .\mcm_simulated2                |         parameters.py                   |   计算五种参数的模块(第一问)       |
-|   .\mcm_simulated2                |         problem2.py                     |   第二问                          |
-|   .\mcm_simulated2                |         problem3.py                     |   第三问                          |
-|   .\mcm_simulated2\data_raw       |        problemx.txt                     |   x为1-4的序号，表示问题需要的数据 |
-|   .\mcm_simulated2\data_abstract  |        spectrum_abstract.py             |   SPD的抽象基类                   |
-|   .\mcm_simulated2\data           |        problemx.py                      |   问题x的 类实例 构建             |
