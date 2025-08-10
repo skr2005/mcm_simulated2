@@ -13,6 +13,7 @@ def p3_plot_melDER(data3: Problem3Data):
     """
     画出目标melDER关于时间的散点图
     """
+    plt.rcParams["font.family"] = ["SimHei"]
     y = []
     for spectrum in data3.spectra():
         stacked = np.vstack((spectrum.wavelength(), spectrum.spd()))
@@ -63,3 +64,31 @@ def solve_problem3_weights(
         w_matrix += [fit_res.x / np.sum(fit_res.x)]
         residual += [fit_res.fun[0]]
     return np.array(w_matrix), np.array(residual)
+
+
+def draw_comparison(
+    w_matrix: NDArray[np.float64],
+    leds: list[Spectrum],
+    data3: Problem3Data,
+):
+    """
+    画出idx[0]:  5:30     idx[7]: 12:30       idx[14]:    19:30 的图
+    """
+    plt.rcParams["font.family"] = ["SimHei"]
+
+    ls = [0, 7, 14]
+    res = [CombinedSpectrum(leds, w_matrix[i]) for i in ls]
+    target = [data3.spectra()[i] for i in ls]
+    for v, w, i in zip(res, target, ls):
+        x = v.wavelength()
+        y = v.spd()
+        y_target = w.spd()
+        plt.plot(x, y / y.sum(), markersize=4, color="purple", label="计算值")
+        plt.plot(
+            x, y_target / y_target.sum(), markersize=4, color="blue", label="目标值"
+        )
+        plt.xlabel("波长")
+        plt.ylabel("SPD对应值")
+        plt.title(f"{i+5.5}h的光谱对比图")
+        plt.legend()
+        plt.show()
