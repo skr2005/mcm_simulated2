@@ -34,9 +34,20 @@ def p3():
 
 """
 >>> p1()
-(np.float64(3903.038236202643), np.float64(-0.0010163494546743452), np.float64(106.07949307088788), np.float64(91.79094031660622), np.float64(0.6407427827369949))
+(np.float64(3903.038236202643), np.float64(-0.0010163494546743452), np.float64(106.07949307088788), 
+np.float64(91.79094031660622), np.float64(0.6407427827369949))
 >>> p2()
-(Problem2Solution(weights=array([1.5052e-01, 1.7068e-01, 2.4089e-01, 9.6361e-03, 4.2827e-01]), combined=<mcm_simulated2.problem2.CombinedSpectrum object at 0x0000018F9C4230E0>, CCT=np.float64(5500.000457716596), Duv=np.float64(0.006138235511558066), Rg=np.float64(102.65525173330582), Rf=np.float64(92.85323293382683), melDER=np.float64(0.8361969993522335)), Problem2Solution(weights=array([7.0011e-05, 1.1311e-01, 9.1099e-05, 8.8672e-01, 4.2728e-06]), combined=<mcm_simulated2.problem2.CombinedSpectrum object at 0x0000018F9C510F50>, CCT=np.float64(2500.009697319552), Duv=np.float64(0.0008625394591722684), Rg=np.float64(98.39437580701367), Rf=np.float64(88.69818183276624), melDER=np.float64(0.3668081750183712)))
+(Problem2Solution(weights=array([1.5052e-01, 1.7068e-01, 2.4089e-01, 9.6361e-03, 4.2827e-01]), 
+combined=<mcm_simulated2.problem2.CombinedSpectrum object at 0x0000018F9C4230E0>,
+CCT=np.float64(5500.000457716596), Duv=np.float64(0.006138235511558066), 
+Rg=np.float64(102.65525173330582), Rf=np.float64(92.85323293382683), 
+melDER=np.float64(0.8361969993522335)),
+
+Problem2Solution(weights=array([7.0011e-05, 1.1311e-01, 9.1099e-05, 8.8672e-01, 4.2728e-06]), 
+combined=<mcm_simulated2.problem2.CombinedSpectrum object at 0x0000018F9C510F50>, 
+CCT=np.float64(2500.009697319552), Duv=np.float64(0.0008625394591722684), 
+Rg=np.float64(98.39437580701367), Rf=np.float64(88.69818183276624), 
+melDER=np.float64(0.3668081750183712)))
 """
 
 

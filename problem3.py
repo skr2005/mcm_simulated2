@@ -53,7 +53,6 @@ def p3_solution(data2: Problem2Data, data3: Problem3Data):
     wl = data2.five_leds()[0].wavelength()
 
     for i in range(len(arr)):
-
         def residuals(w):
             w = np.exp(w)
             w = w / w.sum()
