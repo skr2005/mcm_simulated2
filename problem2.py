@@ -6,6 +6,8 @@ from .parameters import calc_all_5_parameters
 __all__ = [
     "p2s1_solution",
     "p2s2_solution",
+    "CombinedSpectrum",
+    "combine_spd",
 ]
 
 
