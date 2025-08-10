@@ -52,7 +52,7 @@ def solve_problem3_weights(
 ) -> tuple[NDArray[np.float64], NDArray[np.float64]]:
     """
     拟合第三问的各个目标光谱的melDER，
-    返回各个权重以及残差
+    返回各个权重（非负且和为1）以及残差
     """
     w_matrix = []
     residual = []
