@@ -7,6 +7,7 @@ import numpy as np
 from numpy.typing import ArrayLike, NDArray
 from scipy.optimize import (
     differential_evolution,
+    dual_annealing,
     NonlinearConstraint,
     OptimizeResult,
     least_squares,

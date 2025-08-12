@@ -72,6 +72,46 @@ def optimize_scenario_1(problem2_data: Problem2Data) -> OptimizeResult:
         tol=1e-4,
     )
 
+def optimize_scenario_1_anneal(problem2_data: Problem2Data) -> OptimizeResult:
+    """
+    模拟退火算法解决场景一
+    """
+    leds = problem2_data.five_leds()
+    anyone_wavelength = leds[0].wavelength()
+
+    def to_minimize(weights: NDArray[np.float64]) -> np.float64:
+        """
+        要最小化的目标函数
+        返回的变量并没有归一化，需要手动归一
+        """
+        weights = weights/weights.sum()     # 这里处理为加权和
+        cct,rg = constraints_fn(weights)
+        if cct<=5500 or cct>=6500 or rg<=95 or rg>=105:
+            return np.float64(1000.0)         # 罚函数
+        stacked = np.vstack((anyone_wavelength, combine_spd(leds, weights)))
+        return -cast(Any, spd_to_iesrf(stacked, "Rf"))[0][0]
+
+    def constraints_fn(
+        weights: NDArray[np.float64],
+    ) -> tuple[np.float64, np.float64]:
+        """
+        计算CCT、Rg
+        """
+        stacked = np.vstack((anyone_wavelength, combine_spd(leds, weights)))
+        CCT, Rg = cast(Any, spd_to_iesrf(stacked, "cct,Rg"))
+        return (
+            CCT[0][0],
+            Rg[0][0],
+        )
+
+    ans = dual_annealing(
+        to_minimize,
+        [(0, 1)] * 5,
+        maxiter=1000,
+    )
+    ans.x = ans.x/ans.x.sum()     # 输出结果归一化
+    return ans
+
 
 def optimize_scenario_2(problem2_data: Problem2Data) -> OptimizeResult:
     """
@@ -121,6 +161,45 @@ def optimize_scenario_2(problem2_data: Problem2Data) -> OptimizeResult:
         tol=1e-4,
     )
 
+def optimize_scenario_2_anneal(problem2_data: Problem2Data) -> OptimizeResult:
+    """
+    模拟退火模型
+    """
+    leds = problem2_data.five_leds()
+    anyone_wavelength = leds[0].wavelength()
+
+    def to_minimize(weights: NDArray[np.float64]) -> np.float64:
+        """
+        要最小化的目标函数
+        """
+        weights = weights/weights.sum()     # 这里处理为加权和
+        cct,rf = constraints_fn(weights)
+        if cct<2500 or cct>3500 or rf<80:
+            return np.float64(1000.0)         # 罚函数
+        stacked = np.vstack((anyone_wavelength, combine_spd(leds, weights)))
+        melDER = spd_to_aopicDER(stacked)[:, -1]
+        return melDER[0]
+
+    def constraints_fn(
+        weights: NDArray[np.float64],
+    ) -> tuple[np.float64, np.float64]:
+        """
+        计算CCT、Rf
+        """
+        stacked = np.vstack((anyone_wavelength, combine_spd(leds, weights)))
+        Rf, CCT = cast(Any, spd_to_iesrf(stacked, "Rf,cct"))
+        return (
+            CCT[0][0],
+            Rf[0][0],
+        )
+
+    ans = dual_annealing(
+        to_minimize,
+        [(0, 1)] * 5,
+        maxiter=200,
+    )
+    ans.x = ans.x/ans.x.sum()     # 输出结果归一化
+    return ans
 
 class CombinedSpectrum(Spectrum):
     def __init__(self, leds: list[Spectrum], weights: NDArray[np.float64]) -> None:
@@ -168,11 +247,13 @@ def p2s1_solution(data: Problem2Data) -> Problem2Solution:
     """
     问题二场景一的答案
     """
-    return Problem2Solution._calc(data, optimize_scenario_1, "场景一")
+    # return Problem2Solution._calc(data, optimize_scenario_1, "场景一")   # 差分进化
+    return Problem2Solution._calc(data, optimize_scenario_1_anneal, "场景一")  # 模拟退火
 
 
 def p2s2_solution(data: Problem2Data) -> Problem2Solution:
     """
     问题二场景二的答案
     """
-    return Problem2Solution._calc(data, optimize_scenario_2, "场景二")
+    # return Problem2Solution._calc(data, optimize_scenario_2, "场景二")
+    return Problem2Solution._calc(data, optimize_scenario_2_anneal, "场景二")  # 模拟退火
