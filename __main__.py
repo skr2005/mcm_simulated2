@@ -19,6 +19,7 @@ def p2():
     问题二的答案
     """
     p2_data = Problem2Data()
+    # return p2s1_solution(p2_data), p2s2_solution(p2_data)
     return p2s1_solution(p2_data), p2s2_solution(p2_data)
 
 
@@ -44,7 +45,7 @@ def p3():
 
 
 def main(): 
-    print(p3())
+    print(p2())
 
 
 if __name__ == "__main__":
