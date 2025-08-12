@@ -68,52 +68,27 @@ def solve_problem3_weights(
 
 def draw_comparison(
     w_matrix: NDArray[np.float64],
-    residual: NDArray[np.float64],
     leds: list[Spectrum],
     data3: Problem3Data,
-    target_melDERs:NDArray[np.float64],
 ):
     """
     画出idx[0]:  5:30     idx[7]: 12:30       idx[14]:    19:30 的图
     """
     plt.rcParams["font.family"] = ["SimHei"]
 
-    ls = [0,7,14]
+    ls = [0, 7, 14]
     res = [CombinedSpectrum(leds, w_matrix[i]) for i in ls]
     target = [data3.spectra()[i] for i in ls]
-    for v, w,i in zip(res, target,ls):
+    for v, w, i in zip(res, target, ls):
         x = v.wavelength()
         y = v.spd()
         y_target = w.spd()
-        plt.plot(x, y/y.sum(), markersize=4, color="purple", label="计算值")
-        plt.plot(x, y_target/y_target.sum(), markersize=4, color="blue", label="目标值")
+        plt.plot(x, y / y.sum(), markersize=4, color="purple", label="计算值")
+        plt.plot(
+            x, y_target / y_target.sum(), markersize=4, color="blue", label="目标值"
+        )
         plt.xlabel("波长")
         plt.ylabel("SPD对应值")
         plt.title(f"{i+5.5}h的光谱对比图")
         plt.legend()
         plt.show()
-
-
-    plt.axhline(0, color='red', linestyle='--', zorder=0)
-    x = [5.5 + i for i in range(len(residual))]
-    y = residual
-    plt.scatter(x, y, s=4, color="blue", alpha=0.5)
-
-    plt.xlabel("时间")
-    plt.ylabel("mel-DER差值")
-    plt.title("mel-DER残差图")
-
-    # 科学计数法保留1位小数的格式化函数
-    def sci_formatter(val, pos):
-        return f'{val:.1e}'
-
-    plt.gca().yaxis.set_major_formatter(FuncFormatter(sci_formatter))
-
-    # 让y=0居中，调整y轴范围
-    ymin, ymax = min(y), max(y)
-    ymid = (ymin + ymax) / 2
-    half_range = max(abs(ymax - ymid), abs(ymid - ymin))
-    plt.ylim(ymid - half_range, ymid + half_range)
-
-    plt.legend()
-    plt.show()
